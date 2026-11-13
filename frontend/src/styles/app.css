@@ -1,0 +1,193 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #f4f5f7;
+}
+
+a {
+  color: #0b57d0;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #c5c8ce;
+  border-radius: 6px;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+button:hover {
+  background: #eef0f3;
+}
+
+button[type="submit"] {
+  background: #0b57d0;
+  border-color: #0b57d0;
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  background: #0842a0;
+}
+
+input {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #c5c8ce;
+  border-radius: 6px;
+  min-width: 16rem;
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.app-header {
+  background: #fff;
+  border-bottom: 1px solid #e2e4e8;
+}
+
+.app-header-inner {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+}
+
+.brand:hover {
+  color: #0b57d0;
+  text-decoration: none;
+}
+
+.page {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.page-title {
+  margin: 0.35rem 0 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  word-break: break-all;
+}
+
+.back-link {
+  margin: 0 0 0.35rem;
+}
+
+.page form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e2e4e8;
+  border-radius: 8px;
+}
+
+.alert {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background: #fde8e8;
+  color: #8a1f1f;
+  border: 1px solid #f0b4b4;
+}
+
+.status {
+  margin: 0 0 1rem;
+  color: #5c6370;
+}
+
+.competitor-list,
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.competitor-list li,
+.timeline li {
+  padding: 0.9rem 1rem;
+  background: #fff;
+  border: 1px solid #e2e4e8;
+  border-radius: 8px;
+}
+
+.competitor-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.competitor-id {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #e8f0fe;
+  color: #174ea6;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.timeline li p {
+  margin: 0.35rem 0;
+}
+
+.timeline li p:first-child {
+  margin-top: 0;
+}
+
+.timeline-meta {
+  color: #5c6370;
+  font-size: 0.9rem;
+}
+
+.timeline-summary {
+  margin-top: 0.6rem !important;
+  padding-top: 0.6rem;
+  border-top: 1px solid #eceef1;
+}
+
+.muted {
+  color: #5c6370;
+}

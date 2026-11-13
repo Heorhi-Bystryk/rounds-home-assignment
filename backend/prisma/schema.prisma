@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ListingState {
+  unknown
+  listed
+  unlisted
+}
+
+enum PollStatus {
+  ok
+  not_found
+  error
+  timeout
+  partial
+}
+
+enum SummaryStatus {
+  no_previous
+  no_material_change
+  pending
+  ready
+  llm_failed
+  llm_timeout
+  llm_unusable
+  llm_cap_reached
+  poll_failed
+}
+
+model Competitor {
+  id             String       @id
+  createdAt      DateTime     @default(now())
+  nextPollAt     DateTime     @default(now())
+  lastMaterialAt DateTime?
+  listingState   ListingState @default(unknown)
+  title          String?
+  tagline        String?
+  description    String?
+  priceAmount    Decimal?     @db.Decimal(12, 2)
+  priceCurrency  String?
+  pricePeriod    String?
+  priceDisplay   String?
+  priceRaw       String?
+  snapshots      Snapshot[]
+
+  @@index([nextPollAt])
+}
+
+model Snapshot {
+  id             String        @id @default(uuid())
+  competitorId   String
+  competitor     Competitor    @relation(fields: [competitorId], references: [id], onDelete: Cascade)
+  fetchedAt      DateTime
+  pollStatus     PollStatus
+  title          String?
+  tagline        String?
+  price          String?
+  description    String?
+  changed        Boolean
+  summary        String?
+  summaryStatus  SummaryStatus
+  summaryPrompt  String?
+
+  @@index([competitorId, fetchedAt(sort: Desc)])
+  @@index([fetchedAt])
+}
+
+model LlmDailyUsage {
+  day   String @id
+  count Int    @default(0)
+}

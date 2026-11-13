@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pulse
+      POSTGRES_PASSWORD: pulse
+      POSTGRES_DB: pulse
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulse -d pulse"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  listing-source:
+    image: node:22-alpine
+    working_dir: /srv
+    command: ["node", "listing-source-server.mjs"]
+    volumes:
+      - ./infra/listing-source:/srv:ro
+    ports:
+      - "4002:4002"
+
+  mock-llm:
+    image: python:3.12-alpine
+    working_dir: /srv
+    command: ["python", "mock-llm-server.py"]
+    volumes:
+      - ./infra/mock-llm:/srv:ro
+    ports:
+      - "4001:4001"
+
+  backend:
+    build: ./backend
+    environment:
+      PORT: "3000"
+      DATABASE_URL: postgresql://pulse:pulse@postgres:5432/pulse?schema=public
+      LISTING_SOURCE_BASE_URL: http://listing-source:4002
+      LLM_BASE_URL: http://mock-llm:4001/v1
+      LLM_API_KEY: mock
+      LLM_MODEL: mock-llm
+      POLL_INTERVAL_MS: "900000"
+      SOURCE_RATE_PER_SECOND: "5"
+      LLM_DAILY_CAP: "2000"
+      SOURCE_TIMEOUT_MS: "10000"
+      LLM_TIMEOUT_MS: "15000"
+      RETENTION_DAYS: "90"
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      listing-source:
+        condition: service_started
+      mock-llm:
+        condition: service_started
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
